@@ -21,7 +21,7 @@ class ArtifactResource extends JsonResource
             'description' => $this->desctiption,
             'attributes' => $this->attributes,
             'modifiers' => $this->modifiers,
-            'imageUrl' => $this->getImageUrl(),
+            'imageUrl' => $this->getFirstMediaUrl(),
         ];
     }
 }

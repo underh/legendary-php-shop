@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Artifact;
 use App\Http\Requests\CreateArtifactRequest;
-use Illuminate\Http\Request;
+use App\Models\Artifact;
+    use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 class ArtifactController extends Controller
@@ -56,13 +56,14 @@ class ArtifactController extends Controller
             return trim($item);
         });
 
-        $path = $request->file('image')->store('images/artifacts', 'public');
+        $path = $request->file('image')->getRealPath();
 
         $artifactData['attributes'] = $attributesCollection->toArray();
         $artifactData['modifiers'] = $modifiersCollection->toArray();
-        $artifactData['image'] = basename($path);
 
-        Artifact::create($artifactData);
+        $artifact = Artifact::create($artifactData);
+
+        $artifact->addMediaFromRequest('image')->toMediaCollection();
 
         return redirect()->back()->with('message', 'Artifact was successfully added!!!');
     }

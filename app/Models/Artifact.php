@@ -1,12 +1,17 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
-class Artifact extends Model
+class Artifact extends Model implements HasMedia
 {
+    use InteractsWithMedia;
+
     protected $fillable = [
         'title',
         'description',
@@ -44,6 +49,10 @@ class Artifact extends Model
 
     public function getImageUrl()
     {
-        return Storage::disk('public')->url('images/artifacts/' . $this->image);
+        return str_replace(
+            'http://minio:9000',
+            'http://127.0.0.1:10000',
+            $this->getFirstMediaUrl()
+        );
     }
 }
