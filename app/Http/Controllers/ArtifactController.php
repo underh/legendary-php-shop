@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\ArtifactCreated;
 use App\Http\Requests\CreateArtifactRequest;
 use App\Models\Artifact;
     use Illuminate\Http\Request;
@@ -64,6 +65,8 @@ class ArtifactController extends Controller
         $artifact = Artifact::create($artifactData);
 
         $artifact->addMediaFromRequest('image')->toMediaCollection();
+
+        ArtifactCreated::dispatch($artifact);
 
         return redirect()->back()->with('message', 'Artifact was successfully added!!!');
     }
