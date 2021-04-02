@@ -28,6 +28,6 @@ class SendArtifactCreatedNotification
      */
     public function handle(ArtifactCreated $event)
     {
-        User::all()->each(fn($user) => $user->notify(new NewArtifactNotification($event->artifact)));
+        User::all()->each(fn($user) => $user->notify(new NewArtifactNotification($event->getArtifact())));
     }
 }

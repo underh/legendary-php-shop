@@ -43,7 +43,7 @@ class NewArtifactNotification extends Notification
     {
         return (new MailMessage)
                     ->line("New artifact {$this->artifact->title}.")
-                    ->action('Notification Action', url('/'))
+                    ->action('Open Main Page', url('/'))
                     ->line('Thank you for using our application!');
     }
 
